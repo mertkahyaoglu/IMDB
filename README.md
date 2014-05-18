@@ -1,4 +1,0 @@
-IMDB
-====
-
-IMDB Database Project
