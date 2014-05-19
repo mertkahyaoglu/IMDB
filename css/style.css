@@ -16,3 +16,7 @@ body{
 	margin-left: -25px;
 	margin-bottom: 5px;
 }
+
+.sqltext {
+	width: 200px;
+}

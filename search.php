@@ -5,14 +5,17 @@ require('core/init.php');
 $pdo = DB::getInstance()->getPDO();
 $results = [];
 
-if($_POST) {
-	$movie = $_POST['movie'];
-	$sql = "select * from movies where title like '%".$movie."%'";
-	$stmt = $pdo->prepare($sql); 
-	$stmt->execute();
-	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    	$results[] = $row;
-	}
+if (isset($_POST['btn_search'])){
+	$search = $_POST['movie'];
+	$results = searchByTitle($search);
+}else {
+	
+}
+
+if (isset($_POST['btn_searchsql'])){
+	$sql = $_POST['sql'];
+	$results = sqlsearch($sql);
+}else {
 	
 }
 
@@ -23,9 +26,13 @@ if($_POST) {
 			<h1>Results:</h1>
 			<div class="list-group">
 			<?php
-		 		foreach ($results as $result) {
-		 			echo "<a href='details.php?imdbID=".$result['imdbID']."' class='list-group-item'>".$result['title']."</a>";
-				}
+				if(!empty($results)) {
+					foreach ($results as $result) {
+		 				echo "<a href='details.php?imdbID=".$result['imdbID']."' class='list-group-item'>".$result['title']."</a>";
+					}
+				}else{
+					echo "No result!";
+				} 
 	 		?>
 			</div>
 

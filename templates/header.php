@@ -24,7 +24,13 @@
             <div class="form-group">
               <input type="text" placeholder="Search a movie" class="form-control" name="movie">
             </div>
-            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+            <button name="btn_search" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+          </form>
+          <form name="add" action="add.php" method="post" class="navbar-form navbar-right" role="form">
+            <div class="form-group">
+              <input type="text" placeholder="Add a movie by imdbID" class="form-control" name="imdbID">
+            </div>
+            <button name="btn_add" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button>
           </form>
         </div><!--/.navbar-collapse -->
       </div>
