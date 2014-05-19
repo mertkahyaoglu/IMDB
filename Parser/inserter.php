@@ -1,4 +1,5 @@
 <?php
+	//This file insert into database from data.json
 	require("../core/init.php");
 
 	//connect to db
