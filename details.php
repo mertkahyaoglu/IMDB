@@ -1,19 +1,18 @@
 <?php require('core/init.php');
 
-if($_GET) {
+if(isset($_GET['imdbID'])) {
 
 	$imdbID = $_GET['imdbID'];
 	$row = getMovie($imdbID);
 
-}else {
-	$errors[] = "Nothing to show.";
 }
 
 ?>
 
 <?php include('templates/header.php'); ?>
-      
-    <div class="row crow">
+
+    <? if (isset($row)): ?>
+		<div class="row crow">
 		<div class="col-md-4">
 			<img src="<?= $row['url']?>" width="80%" height="60%"></img>
 		</div>
@@ -27,6 +26,9 @@ if($_GET) {
 		<div class="col-md-8">
 			
 		</div>
-	</div>
+		</div>  	  
+	<? else: ?>
+    	Nothing to show!
+	<? endif; ?>
       	
 <?php include('templates/footer.php'); ?>

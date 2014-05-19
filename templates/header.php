@@ -20,13 +20,13 @@
           <a class="navbar-brand" href="index.php">IMDB Database Project</a>
         </div>
         <div class="navbar-collapse collapse">
-          <form name="search" action="search.php" method="post" class="navbar-form navbar-right" role="form">
+          <form name="search" action="search.php" method="post" class="navbar-form navbar-right" role="form" onsubmit="return validateForm('search', 'movie')">
             <div class="form-group">
               <input type="text" placeholder="Search a movie" class="form-control" name="movie">
             </div>
             <button name="btn_search" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
           </form>
-          <form name="add" action="add.php" method="post" class="navbar-form navbar-right" role="form">
+          <form name="add" action="add.php" method="post" class="navbar-form navbar-right" role="form" onsubmit="return validateForm('add', 'imdbID')">
             <div class="form-group">
               <input type="text" placeholder="Add a movie by imdbID" class="form-control" name="imdbID">
             </div>

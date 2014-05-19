@@ -8,7 +8,7 @@
      
         <p><a class="btn btn-primary btn-md" role="button">Search</a></p>
         <h2>Search by SQL</h2>
-        <form name="searchsql" action="search.php" method="post" class="form-group" role="form">
+        <form name="searchsql" action="search.php" method="post" class="form-group" role="form" onsubmit="return validateForm('searchsql', 'sql')">
             <div class="row">
               <div class="col-lg-11">
               	<input type="text" placeholder="Search by SQL command" class="form-control" name="sql">	

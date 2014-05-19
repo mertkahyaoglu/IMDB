@@ -1,6 +1,9 @@
-document.getElementById('search').onsubmit = function() {
-    if (!this.FileName.value) {
-        alert ("Please Enter a File Name");
-        return false;
-    }
-};
+function validateForm(form, field)
+{
+	var x=document.forms[form][field].value;
+	if (x==null || x=="")
+	{
+		alert("Empty submit!");
+		return false;
+	}
+}

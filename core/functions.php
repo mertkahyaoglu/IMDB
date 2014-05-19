@@ -5,7 +5,8 @@ function getJSON($imdbID) {
 	$url = "http://www.omdbapi.com/?i={$imdbID}";
 	$json = file_get_contents($url);
 	$movie = json_decode($json, true);
-	return $movie;
+	if($movie['Response'] === "True") return $movie;
+	else return "";
 }
 
 function sqlsearch($sql) {

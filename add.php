@@ -10,16 +10,19 @@ $parser = new Parser();
 if (isset($_POST['btn_add'])){
 	$id = $_POST['imdbID'];
 	$movie = getJSON($id);
-	$parser->parse($movie);
-	if(!exists($parser->id)) {
-		addToDb($movie);
-		$notifier = "<a href='details.php?imdbID=".$parser->id."' class='list-group-item'>".$parser->title."</a>";
+	if(is_string($movie)){
+		$notifier = "No result!";
 	}else {
-		$notifier = $parser->title." is already in database";
+		$parser->parse($movie);
+		if(!exists($parser->id)) {
+			addToDb($movie);
+			$notifier = "<a href='details.php?imdbID=".$parser->id."' class='list-group-item'>".$parser->title."</a>";
+		}else {
+			$notifier = $parser->title." is already in database";
+		}
 	}
-}else {
-	
 }
+
 ?>
 <?php require('templates/header.php'); ?>
 	
@@ -29,7 +32,6 @@ if (isset($_POST['btn_add'])){
 			<div class="list-group">
 				 <?= $notifier ?>
 			</div>
-
 		</div>
 	</div>
 
