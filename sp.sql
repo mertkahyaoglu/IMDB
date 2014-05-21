@@ -48,3 +48,10 @@ CREATE PROCEDURE `getMovieWriters`(IN imdb_ID VARCHAR(9))
 BEGIN
 	SELECT name FROM writers, movie_writer, movies WHERE movies.id = movie_writer.movie_id and movie_writer.writer_id=writers.id and movies.imdbID = imdb_ID;
 END
+
+DELIMITER $$
+
+CREATE PROCEDURE `getMovieCountries`(IN imdb_ID VARCHAR(9))
+BEGIN
+	SELECT country FROM countries, movies, movie_country WHERE movies.id = movie_country.movie_id and movie_country.country_id = countries.id and movies.imdbID = imdb_ID;
+END
