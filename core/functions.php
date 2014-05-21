@@ -53,6 +53,16 @@ function getPoster($imdbID) {
 	return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function getGenres($imdbID) {
+	$sql = "call getGenres(:id)";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute(array(':id' => $imdbID));
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	    	$results[] = $row;
+	}
+	return $results;
+}
+
 function countMovies() {
 	$sql = "select count(id) as total from movies";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
