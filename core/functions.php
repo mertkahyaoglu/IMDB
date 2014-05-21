@@ -40,7 +40,14 @@ function searchByTitle($movie) {
 }
 
 function getMovie($imdbID) {
-	$sql = "select * from movies, posters where posters.movie_id = movies.id and imdbID = :id";
+	$sql = "call getMovie(:id)";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute(array(':id' => $imdbID));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getPoster($imdbID) {
+	$sql = "call getPoster(:id)";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
 	$stmt->execute(array(':id' => $imdbID));
 	return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,14 +55,6 @@ function getMovie($imdbID) {
 
 function countMovies() {
 	$sql = "select count(id) as total from movies";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute();
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	return $row['total'];
-}
-
-function countSearch($movie) {
-	$sql = "select count(id) as total from movies where title like '%".$movie."%'";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
 	$stmt->execute();
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);

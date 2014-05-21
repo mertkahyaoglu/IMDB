@@ -2,21 +2,22 @@
 
 if(isset($_GET['imdbID'])) {
 	$imdbID = $_GET['imdbID'];
-	$row = getMovie($imdbID);
+	$movie = getMovie($imdbID);
+	$poster = getPoster($imdbID);
 }
 
 ?>
 
 <?php include('templates/header.php'); ?>
 
-    <? if (isset($row)): ?>
-		<div class="row crow">
+    <? if (isset($movie)): ?>
+		<div class="movie cmovie">
 		<div class="col-md-4">
-			<img src="<?= $row['url']?>" width="80%" height="60%"></img>
+			<img src="<?= $poster['url']?>" width="80%" height="60%"></img>
 		</div>
 		<div class="col-md-8">
-			<?php echo "<h2>" .$row['title']. " <small>(".$row['year'].")</small></h2>"?>
-			<p><?= $row['runtime'] ?> min</p>
+			<?php echo "<h2>" .$movie['title']. " <small>(".$movie['year'].")</small></h2>"?>
+			<p><?= $movie['runtime'] ?> min</p>
 		</div>
 		<div class="col-md-8">
 			

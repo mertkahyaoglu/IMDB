@@ -17,6 +17,7 @@ if (isset($_POST['btn_searchsql'])){
 
 ?>
 <?php require('templates/header.php'); ?>
+
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<h1>Results:</h1>
@@ -32,7 +33,9 @@ if (isset($_POST['btn_searchsql'])){
 			<? else: ?>
    				No result
 			<? endif; ?>
+
 			</div>
 		</div>
 	</div>
+
 <?php require('templates/footer.php'); ?>
