@@ -8,6 +8,10 @@ if(isset($_GET['imdbID'])) {
 }
 
 ?>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 643f952987283411bd64130b8b80da6d677dffe1
 <?php include('templates/header.php'); ?>
 
     <? if (isset($row)): ?>

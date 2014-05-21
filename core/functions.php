@@ -26,7 +26,11 @@ function sqlsearch($sql) {
 function searchByTitle($movie) {
 	$results = [];
 	try{	
+<<<<<<< HEAD
 		$sql = "select imdbID, title from movies where title like '%".$movie."%' order by title";
+=======
+		$sql = "select imdbID, title from movies where title like '%".$movie."%'";
+>>>>>>> 643f952987283411bd64130b8b80da6d677dffe1
 		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
 		$stmt->execute();
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -45,6 +49,7 @@ function getMovie($imdbID) {
 	return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+<<<<<<< HEAD
 function countMovies() {
 	$sql = "select count(id) as total from movies";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
@@ -63,6 +68,8 @@ function countSearch($movie) {
 
 
 
+=======
+>>>>>>> 643f952987283411bd64130b8b80da6d677dffe1
 //check whether a movie with given imdbID is in database
 function exists($imdbID){
 	$sql = "select * from movies where imdbID = :id";
