@@ -5,7 +5,6 @@
       <div class="container">
         <h2>Advanced Search</h2>
         
-<<<<<<< HEAD
         <div class="row">
           <div class="col-sm-2">
             <h4>Year</h4>
@@ -50,20 +49,14 @@
         <div>
           <p><a class="btn btn-primary btn-md pull-right" role="button">Search</a></p>  
         </div>
-  
-=======
      
         <p><a class="btn btn-primary btn-md" role="button">Search</a></p>
->>>>>>> 643f952987283411bd64130b8b80da6d677dffe1
         <h2>Search by SQL</h2>
         <form name="searchsql" action="search.php" method="post" class="form-group" role="form" onsubmit="return validateForm('searchsql', 'sql')">
             <div class="row">
               <div class="col-lg-11">
-<<<<<<< HEAD
               	<input type="text" placeholder="Search a movie by SQL command" class="form-control" name="sql">	
-=======
               	<input type="text" placeholder="Search by SQL command" class="form-control" name="sql">	
->>>>>>> 643f952987283411bd64130b8b80da6d677dffe1
               </div>
               <div class="col-lg-1">
               	<button name="btn_searchsql" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>	

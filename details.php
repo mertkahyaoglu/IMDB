@@ -1,17 +1,12 @@
 <?php require('core/init.php');
 
 if(isset($_GET['imdbID'])) {
-
 	$imdbID = $_GET['imdbID'];
 	$row = getMovie($imdbID);
-
 }
 
 ?>
-<<<<<<< HEAD
-=======
 
->>>>>>> 643f952987283411bd64130b8b80da6d677dffe1
 <?php include('templates/header.php'); ?>
 
     <? if (isset($row)): ?>
