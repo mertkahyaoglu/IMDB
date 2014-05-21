@@ -40,28 +40,14 @@
             <h4>Oscar</h4>
             <div class="checkbox">
               <label>
-              <input type="checkbox"> Yes</input>
+              <input type="checkbox"> Yes
               </label>
             </div>
           </div>                                   
         </div>
 
-        <div>
-          <p><a class="btn btn-primary btn-md pull-right" role="button">Search</a></p>  
-        </div>
-     
-        <p><a class="btn btn-primary btn-md" role="button">Search</a></p>
-        <h2>Search by SQL</h2>
-        <form name="searchsql" action="search.php" method="post" class="form-group" role="form" onsubmit="return validateForm('searchsql', 'sql')">
-            <div class="row">
-              <div class="col-lg-11">
-              	<input type="text" placeholder="Search a movie by SQL command" class="form-control" name="sql">	
-              </div>
-              <div class="col-lg-1">
-              	<button name="btn_searchsql" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>	
-              </div>
-            </div>
-        </form>
+          <p><a class="btn btn-primary btn-md" role="button">Search</a></p>  
+        
       </div>
     </div>
     

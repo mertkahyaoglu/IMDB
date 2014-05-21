@@ -2,31 +2,16 @@
 
 if(isset($_GET['imdbID'])) {
 	$imdbID = $_GET['imdbID'];
-	$movie = getMovie($imdbID);
-	$poster = getMoviePoster($imdbID);
-	$mgenres = getMovieGenres($imdbID);
-	$genres = "";
-	$i = 0;
-	foreach ($mgenres as $genre) {
-		$i++;
-		if($i < count($mgenres))
-			$genres .= $genre['genre']. " | ";
-		else
-			$genres .= $genre['genre'];
-	}
-	$plot = getMoviePlot($imdbID);
+	
+	$movie  = getField("getMovie", $imdbID);
+	$poster = getField("getMoviePoster",$imdbID);
+	$plot   = getField("getMoviePlot", $imdbID);
 
-	$mcountries = getMovieCountries($imdbID);
-	$countries = "";
-	$i = 0;
-	foreach ($mcountries as $country) {
-		$i++;
-		if($i < count($mcountries))
-			$countries .= $country['country']. ", ";
-		else
-			$countries .= $country['country'];
-	}
-	$director = getMovieDirector($imdbID);
+	$genres    = implodeFields(getFields("getMovieGenres", $imdbID), "genre", " | ");
+	$countries = implodeFields(getFields("getMovieCountries", $imdbID), "country", ", ");
+	$directors = implodeFields(getFields("getMovieDirectors", $imdbID), "name", ", ");
+	$writers   = implodeFields(getFields("getMovieWriters", $imdbID), "name", ", ");
+	$actors    = implodeFields(getFields("getMovieActors", $imdbID), "name", ", ");
 }
 
 ?>
@@ -48,7 +33,13 @@ if(isset($_GET['imdbID'])) {
 				<hr>
 			</div>
 			<div class="col-md-5">
-				<p><strong>Director: </strong><?= $director['name'] ?></p>
+				<p><strong>Director: </strong><?= $directors ?></p>
+			</div>
+			<div class="col-md-5">
+				<p><strong>Writers: </strong><?= $writers ?></p>
+			</div>
+			<div class="col-md-5">
+				<p><strong>Stars: </strong><?= $actors ?></p>
 			</div>
 		</div>  	  
 	<? else: ?>

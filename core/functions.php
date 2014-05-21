@@ -9,20 +9,6 @@ function getJSON($imdbID) {
 	else return "";
 }
 
-function sqlsearch($sql) {
-	$results = [];
-	try{
-		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-		$stmt->execute();
-		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    		$results[] = $row;
-		}
-	}catch(PDOException $e){ 
-       echo "Something is wrong!";
-    } 
-	return $results;	
-}
-
 function searchByTitle($movie) {
 	$results = [];
 	try{	
@@ -39,53 +25,32 @@ function searchByTitle($movie) {
 	return $results;	
 }
 
-function getMovie($imdbID) {
-	$sql = "call getMovie(:id)";
+function getFields($sp, $by) {
+	$sql = "call ".$sp."(:id)";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':id' => $imdbID));
-	return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-function getMoviePlot($imdbID) {
-	$sql = "call getMoviePlot(:id)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':id' => $imdbID));
-	return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-function getMoviePoster($imdbID) {
-	$sql = "call getMoviePoster(:id)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':id' => $imdbID));
-	return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-function getMovieDirector($imdbID) {
-	$sql = "call getMovieDirector(:id)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':id' => $imdbID));
-	return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-
-function getMovieGenres($imdbID) {
-	$sql = "call getMovieGenres(:id)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':id' => $imdbID));
+	$stmt->execute(array(':id' => $by));
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	    	$results[] = $row;
 	}
 	return $results;
 }
 
-function getMovieCountries($imdbID) {
-	$sql = "call getMovieCountries(:id)";
+function getField($sp, $by) {
+	$sql = "call ".$sp."(:by)";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':id' => $imdbID));
-	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	    	$results[] = $row;
+	$stmt->execute(array(':by' => $by));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function implodeFields($values, $key, $with) {
+	$result = "";
+	$i = 0;
+	foreach ($values as $value) {
+		$i++;
+		if($i < count($values)) $result .= $value[$key]. $with;
+		else $result .= $value[$key];
 	}
-	return $results;
+	return $result;
 }
 
 function countMovies() {
@@ -133,10 +98,12 @@ function addToDb($movie) {
 	}
 
 	//Add director
-	$sql = "call insertDirector(?)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
-	$stmt->bindParam(1, $p->director);
-	$stmt->execute();
+	foreach ($p->directors as $director) {
+		$sql = "call insertDirector(?)";
+		$stmt = DB::getInstance()->getPDO()->prepare($sql);
+		$stmt->bindParam(1, $director);
+		$stmt->execute();
+	}
 
 	//Add writers
 	foreach ($p->writers as $writer) {
@@ -227,17 +194,19 @@ function addToDb($movie) {
 
 	//Add movie_director
 	//get director id
-	$sql = "select id from directors where name = :director";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':director' => $p->director));
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	$did = $row['id'];
+	foreach ($p->directors as $director) {
+		$sql = "select id from directors where name = :director";
+		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+		$stmt->execute(array(':director' => $director));
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		$did = $row['id'];
 
-	$sql = "call insertMovieDirector(?, ?)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
-	$stmt->bindParam(1, $movieid);
-	$stmt->bindParam(2, $did);
-	$stmt->execute();
+		$sql = "call insertMovieDirector(?, ?)";
+		$stmt = DB::getInstance()->getPDO()->prepare($sql);
+		$stmt->bindParam(1, $movieid);
+		$stmt->bindParam(2, $did);
+		$stmt->execute();
+	}
 
 	//Add movie_country
 	foreach ($p->countries as $country) {

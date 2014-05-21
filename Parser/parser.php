@@ -12,7 +12,7 @@ class Parser {
 			$runtime,
 
 			$genres,
-			$director,
+			$directors,
 			$writers,
 			$actors,
 			$languages,
@@ -36,7 +36,7 @@ class Parser {
     	$this->released = $movie['Released'];
     	$this->runtime = filter_var($movie['Runtime'], FILTER_SANITIZE_NUMBER_INT); // remove 'min'
 		$this->genres = explode(', ', $movie['Genre']); 
-		$this->director = $movie['Director'];
+		$this->directors = explode(", ", $movie['Director']);
 		$this->writers = explode(', ', $movie['Writer']);
 
 		$i = 0;

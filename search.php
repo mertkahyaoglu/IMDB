@@ -1,5 +1,4 @@
-<?php
-require('core/init.php');
+<?php require('core/init.php');
 
 $pdo = DB::getInstance()->getPDO();
 
@@ -10,12 +9,8 @@ if (isset($_POST['btn_search'])){
 	$results = searchByTitle($search);
 }
 
-if (isset($_POST['btn_searchsql'])){
-	$sql = $_POST['sql'];
-	$results = sqlsearch($sql);
-}
-
 ?>
+
 <?php require('templates/header.php'); ?>
 
 	<div class="row">
