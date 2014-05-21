@@ -56,7 +56,6 @@
             <div class="row">
               <div class="col-lg-11">
               	<input type="text" placeholder="Search a movie by SQL command" class="form-control" name="sql">	
-              	<input type="text" placeholder="Search by SQL command" class="form-control" name="sql">	
               </div>
               <div class="col-lg-1">
               	<button name="btn_searchsql" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>	

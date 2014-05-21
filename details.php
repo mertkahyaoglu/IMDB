@@ -26,6 +26,7 @@ if(isset($_GET['imdbID'])) {
 		else
 			$countries .= $country['country'];
 	}
+	$director = getMovieDirector($imdbID);
 }
 
 ?>
@@ -33,21 +34,22 @@ if(isset($_GET['imdbID'])) {
 <?php include('templates/header.php'); ?>
 
     <? if (isset($movie)): ?>
-		<div class="movie cmovie">
-		<div class="col-md-4">
-			<img class="poster" src="<?= $poster['url']?>" width="80%" height="60%"></img>
-		</div>
-		<div class="col-md-5">
-			<?php echo "<h2>" .$movie['title']. " <small>(".$movie['year'].")</small></h2>"?>
-			<p><?= $movie['runtime'] ?> min - <small style="color: #6999e0"> <?= $genres ?> </small> - <?= $movie['released'] ?> (<small style="color: #6999e0"> <?= $countries ?> </small>) </p>
-			<hr>
-		</div>
-		<div class="col-md-8">
-			<p><?= $plot['plot'] ?></p>
-		</div>
-		<div class="col-md-8">
-			
-		</div>
+		<div class="row crow">
+			<div class="col-md-4 col-md-offset-1">
+				<img class="poster" src="<?= $poster['url']?>" width="80%" height="60%"></img>
+			</div>
+			<div class="col-md-5">
+				<?php echo "<h2>" .$movie['title']. " <small>(".$movie['year'].")</small></h2>"?>
+				<p><?= $movie['runtime'] ?> min - <small style="color: #6999e0"> <?= $genres ?> </small> - <?= $movie['released'] ?> (<small style="color: #6999e0"> <?= $countries ?> </small>) </p>
+				<hr>
+			</div>
+			<div class="col-md-5">
+				<p><?= $plot['plot'] ?></p>
+				<hr>
+			</div>
+			<div class="col-md-5">
+				<p><strong>Director: </strong><?= $director['name'] ?></p>
+			</div>
 		</div>  	  
 	<? else: ?>
     	Nothing to show!

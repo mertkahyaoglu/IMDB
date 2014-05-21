@@ -60,6 +60,14 @@ function getMoviePoster($imdbID) {
 	return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function getMovieDirector($imdbID) {
+	$sql = "call getMovieDirector(:id)";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute(array(':id' => $imdbID));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
 function getMovieGenres($imdbID) {
 	$sql = "call getMovieGenres(:id)";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
