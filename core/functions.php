@@ -46,15 +46,32 @@ function getMovie($imdbID) {
 	return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function getPoster($imdbID) {
-	$sql = "call getPoster(:id)";
+function getMoviePlot($imdbID) {
+	$sql = "call getMoviePlot(:id)";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
 	$stmt->execute(array(':id' => $imdbID));
 	return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function getGenres($imdbID) {
-	$sql = "call getGenres(:id)";
+function getMoviePoster($imdbID) {
+	$sql = "call getMoviePoster(:id)";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute(array(':id' => $imdbID));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getMovieGenres($imdbID) {
+	$sql = "call getMovieGenres(:id)";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute(array(':id' => $imdbID));
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	    	$results[] = $row;
+	}
+	return $results;
+}
+
+function getMovieCountries($imdbID) {
+	$sql = "call getMovieCountries(:id)";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
 	$stmt->execute(array(':id' => $imdbID));
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

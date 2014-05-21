@@ -3,8 +3,8 @@
 if(isset($_GET['imdbID'])) {
 	$imdbID = $_GET['imdbID'];
 	$movie = getMovie($imdbID);
-	$poster = getPoster($imdbID);
-	$mgenres = getGenres($imdbID);
+	$poster = getMoviePoster($imdbID);
+	$mgenres = getMovieGenres($imdbID);
 	$genres = "";
 	$i = 0;
 	foreach ($mgenres as $genre) {
@@ -14,7 +14,18 @@ if(isset($_GET['imdbID'])) {
 		else
 			$genres .= $genre['genre'];
 	}
+	$plot = getMoviePlot($imdbID);
 
+	$mcountries = getMovieCountries($imdbID);
+	$countries = "";
+	$i = 0;
+	foreach ($mcountries as $country) {
+		$i++;
+		if($i < count($mcountries))
+			$countries .= $country['country']. ", ";
+		else
+			$countries .= $country['country'];
+	}
 }
 
 ?>
@@ -24,14 +35,15 @@ if(isset($_GET['imdbID'])) {
     <? if (isset($movie)): ?>
 		<div class="movie cmovie">
 		<div class="col-md-4">
-			<img src="<?= $poster['url']?>" width="80%" height="60%"></img>
+			<img class="poster" src="<?= $poster['url']?>" width="80%" height="60%"></img>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-5">
 			<?php echo "<h2>" .$movie['title']. " <small>(".$movie['year'].")</small></h2>"?>
-			<p><?= $movie['runtime'] ?> min  -  <?= $genres ?></p>
+			<p><?= $movie['runtime'] ?> min - <small style="color: #6999e0"> <?= $genres ?> </small> - <?= $movie['released'] ?> (<small style="color: #6999e0"> <?= $countries ?> </small>) </p>
+			<hr>
 		</div>
 		<div class="col-md-8">
-			
+			<p><?= $plot['plot'] ?></p>
 		</div>
 		<div class="col-md-8">
 			
