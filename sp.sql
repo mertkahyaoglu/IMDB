@@ -37,9 +37,9 @@ END
 
 DELIMITER $$
 
-CREATE PROCEDURE `getMovieRating`(IN imdb_ID VARCHAR(9))
+CREATE PROCEDURE `getMovieStats`(IN imdb_ID VARCHAR(9))
 BEGIN
-	SELECT imdb_rating FROM stats,movies WHERE stats.movie_id = movies.id and movies.imdbID = imdb_ID;
+	SELECT imdb_rating, imdb_votes, imdb_metascore FROM stats,movies WHERE stats.movie_id = movies.id and movies.imdbID = imdb_ID;
 END
 
 DELIMITER $$
