@@ -18,17 +18,16 @@ if (isset($_POST['btn_search'])){
 			<h1>Results:</h1>
 			<div class="list-group">
 
-			<? if (!empty($results)): ?>
 				<?php
-					foreach ($results as $result) {
-						if(isset($result['title']))
-		 					echo "<a href='details.php?imdbID=".$result['imdbID']."' class='list-group-item'>".$result['title']."</a>";
+					if (!empty($results)){
+						foreach ($results as $result) {
+							if(isset($result['title']))
+								echo "<a href='details.php?imdbID=".$result['imdbID']."' class='list-group-item'>".$result['title']."</a>";
+						}
 					}
+					else echo "Nothing to show!";
 				?>
-			<? else: ?>
-   				No result
-			<? endif; ?>
-
+	
 			</div>
 		</div>
 	</div>
