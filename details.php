@@ -6,6 +6,7 @@ if(isset($_GET['imdbID'])) {
 	$movie  = getField("getMovie", $imdbID);
 	$poster = getField("getMoviePoster",$imdbID);
 	$plot   = getField("getMoviePlot", $imdbID);
+	$stats = getField("getMovieStats", $imdbID);
 
 	$genres    = implodeFields(getFields("getMovieGenres", $imdbID), "genre", " | ");
 	$countries = implodeFields(getFields("getMovieCountries", $imdbID), "country", ", ");
@@ -28,7 +29,17 @@ if(isset($_GET['imdbID'])) {
 				<p><?= $movie['runtime'] ?> min - <small style="color: #6999e0"> <?= $genres ?> </small> - <?= $movie['released'] ?> (<small style="color: #6999e0"> <?= $countries ?> </small>) </p>
 				<hr>
 			</div>
+			<div class="col-md-5 stat">
+				<small>
+					<span class="text-warning">Ratings : </span>
+					<strong><?= $stats['imdb_rating'] ?></strong>
+					<span class="text-muted">/10</span> 
+					from <span class="text-info"><?= number_format($stats['imdb_votes'])?></span>
+					votes, Metascore : <strong><?= $stats['imdb_metascore']?></strong>
+				</small>
+			</div>
 			<div class="col-md-5">
+				<hr>
 				<p><?= $plot['plot'] ?></p>
 				<hr>
 			</div>

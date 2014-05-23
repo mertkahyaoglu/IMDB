@@ -70,6 +70,14 @@ function exists($imdbID){
 
 }
 
+function getID($table, $field, $by) {
+	$sql = "select id from ".$table." where ".$field." = :by";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute(array(':by' => $by));
+	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $row['id'];
+}
+
 function addToDb($movie) {
 	$p = new Parser();
 	$p->parse($movie);
@@ -83,11 +91,7 @@ function addToDb($movie) {
 	$stmt->bindParam(5, $p->id, PDO::PARAM_STR);
 	$stmt->execute();
 
-	//get inserted movie id
-	$sql = "select id from movies where imdbID = '" .$p->id ."'";
-	$stmt = DB::getInstance()->getPDO()->query($sql); 
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	$movieid = $row['id'];
+	$movieid = getID("movies", "imdbID", $p->id);
 
 	//Add genres
 	foreach ($p->genres as $genre) {
@@ -162,12 +166,7 @@ function addToDb($movie) {
 
 	//Add movie_genre
 	foreach ($p->genres as $genre) {
-		//get genre id
-		$sql = "select id from genres where genre = :genre";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-		$stmt->execute(array(':genre' => $genre)); 
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$gid = $row['id'];
+		$gid = getID("genres", "genre", "$genre");
 
 		$sql = "call insertMovieGenre(?, ?)";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql);
@@ -178,12 +177,7 @@ function addToDb($movie) {
 
 	//Add movie_cast
 	foreach ($p->actors as $actor) {
-		//get actor idsomething = :comparison'
-		$sql = "select id from actors where name = :actor";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-		$stmt->execute(array(':actor' => $actor));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$aid = $row['id'];
+		$aid = getID("actors", "name", $actor);
 
 		$sql = "call insertMovieCast(?, ?)";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql);
@@ -195,11 +189,7 @@ function addToDb($movie) {
 	//Add movie_director
 	//get director id
 	foreach ($p->directors as $director) {
-		$sql = "select id from directors where name = :director";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-		$stmt->execute(array(':director' => $director));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$did = $row['id'];
+		$did = getID("directors", "name", $director);
 
 		$sql = "call insertMovieDirector(?, ?)";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql);
@@ -210,12 +200,7 @@ function addToDb($movie) {
 
 	//Add movie_country
 	foreach ($p->countries as $country) {
-		//get country id
-		$sql = "select id from countries where country = :country";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-		$stmt->execute(array(':country' => $country));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$cid = $row['id'];
+		$cid = getID("countries", "country", $country);
 
 		$sql = "call insertMovieCountry(?, ?)";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql);
@@ -226,12 +211,7 @@ function addToDb($movie) {
 
 	//Add movie_langugae
 	foreach ($p->languages as $lan) {
-		//get language id
-		$sql = "select id from languages where language = :lan";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-		$stmt->execute(array(':lan' => $lan));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$lid = $row['id'];
+		$lid = getID("languages", "language", $lan);
 
 		$sql = "call insertMovieLanguage(?, ?)";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql);
@@ -242,12 +222,7 @@ function addToDb($movie) {
 
 	//Add movie_writer
 	foreach ($p->writers as $writer) {
-		//get writer id
-		$sql = "select id from writers where name = :name";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-		$stmt->execute(array(':name' => $writer));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$wid = $row['id'];
+		$wid = getID("writers", "name", $writer);
 
 		$sql = "call insertMovieWriter(?, ?)";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql);
