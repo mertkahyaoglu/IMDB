@@ -19,7 +19,7 @@ if(isset($_GET['imdbID'])) {
 
 <?php include('templates/header.php'); ?>
 
-    <? if (isset($movie)): ?>
+    <?php if (isset($movie)): ?>
 		<div class="row crow">
 			<div class="col-md-4 col-md-offset-1">
 				<img class="poster" src="<?= $poster['url']?>" width="80%" height="60%"></img>
@@ -53,8 +53,8 @@ if(isset($_GET['imdbID'])) {
 				<p><strong>Stars: </strong><?= $actors ?></p>
 			</div>
 		</div>  	  
-	<? else: ?>
+	<?php else: ?>
     	Nothing to show!
-	<? endif; ?>
+	<?php endif; ?>
       	
 <?php include('templates/footer.php'); ?>

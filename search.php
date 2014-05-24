@@ -2,8 +2,6 @@
 
 $pdo = DB::getInstance()->getPDO();
 
-$results = [];
-
 if (isset($_POST['btn_search'])){
 	$search = $_POST['movie'];
 	$results = searchByTitle($search);
