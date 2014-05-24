@@ -9,11 +9,42 @@ function getJSON($imdbID) {
 	else return "";
 }
 
+function advancedSearch($year, $genre, $con, $lan) {
+	$count = [];
+	$results = [];
+	if(isset($year)) $count['year'] = "m.year = {$year}";
+	if(isset($genre)) $count['genre'] = "g.genre = '{$genre}'";
+	if(isset($con)) $count['country'] = "c.country = '{$con}'";
+	if(isset($lan)) $count['language'] = "l.language = '{$lan}'";
+	if(count($count) < 1) return null;
+
+	$sql = "SELECT DISTINCT imdbID, title 
+			FROM movies m, movie_genre mg, genres g, movie_country mc, 
+				 countries c, movie_language ml, languages l
+			WHERE m.id = mg.movie_id and mg.genre_id = g.id and
+				  m.id = mc.movie_id and mc.country_id = c.id and
+				  m.id = ml.movie_id and ml.language_id = l.id ";
+	
+	if(count($count) > 1) {
+		$count = implode(" and ", $count);
+		$sql .= " and ".$count;
+		echo $count."</br>";
+	}else {
+		$sql .= " and ".array_values($count)[0];
+	}
+	
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute();
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	    $results[] = $row;
+	}
+	return $results;
+}
+
 function searchByTitle($movie) {
 	$results = [];
 	try{	
 		$sql = "select imdbID, title from movies where title like '%".$movie."%' order by title";
-		$sql = "select imdbID, title from movies where title like '%".$movie."%'";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
 		$stmt->execute();
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
