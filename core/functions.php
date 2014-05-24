@@ -26,9 +26,15 @@ function searchByTitle($movie) {
 }
 
 function getFields($sp, $by) {
-	$sql = "call ".$sp."(:id)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':id' => $by));
+	if($by === "") {
+		$sql = "call ".$sp."()";
+		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+		$stmt->execute();
+	}else {
+		$sql = "call ".$sp."(:id)";
+		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+		$stmt->execute(array(':id' => $by));
+	}
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	    	$results[] = $row;
 	}
@@ -36,9 +42,15 @@ function getFields($sp, $by) {
 }
 
 function getField($sp, $by) {
-	$sql = "call ".$sp."(:by)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute(array(':by' => $by));
+	if($by === ""){
+		$sql = "call ".$sp."()";
+		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+		$stmt->execute();
+	}else {
+		$sql = "call ".$sp."(:by)";
+		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+		$stmt->execute(array(':by' => $by));
+	}
 	return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
@@ -51,14 +63,6 @@ function implodeFields($values, $key, $with) {
 		else $result .= $value[$key];
 	}
 	return $result;
-}
-
-function countMovies() {
-	$sql = "select count(id) as total from movies";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
-	$stmt->execute();
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	return $row['total'];
 }
 
 //check whether a movie with given imdbID is in database
