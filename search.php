@@ -38,7 +38,7 @@ if (isset($_POST['btn_asearch'])){
 								echo "<a href='details.php?imdbID=".$result['imdbID']."' class='list-group-item'>".$result['title']."</a>";
 						}
 					}
-					else echo "Nothing to show!";
+					else echo "No Result!";
 				?>
 	
 			</div>

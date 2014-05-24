@@ -28,7 +28,6 @@ function advancedSearch($year, $genre, $con, $lan) {
 	if(count($count) > 1) {
 		$count = implode(" and ", $count);
 		$sql .= " and ".$count;
-		echo $count."</br>";
 	}else {
 		$sql .= " and ".array_values($count)[0];
 	}
