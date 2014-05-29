@@ -47,9 +47,36 @@ class Parser {
 			$i++;
 		}
 
-		/*
-		
-		*/
+		$this->awards = $movie['Awards'];
+		$mawards = [];
+		$this->awards = explode(".", $this->awards);
+		if(count($this->awards) > 2) {
+			foreach ($this->awards as $sentence) {
+				if (preg_match('/Won/',$sentence)) {
+					 preg_match_all('/Won ([\d]+)/',$sentence,$matches);
+					 $mawards['Oscar'] = $matches[1][0];
+				}
+				if (preg_match('/&/',$sentence)) {
+					$sentence = explode("&", $sentence);
+					preg_match_all('/Another ([\d]+)/',$sentence[0],$matches);
+					$mawards['Win'] = $matches[1][0];
+				    preg_match_all('/([\d]+) nomination/',$sentence[1],$matches);
+					$mawards['Another'] = $matches[1][0];
+				}
+			}
+		}else {
+			if (preg_match('/&/',$this->awards[0])) {
+					$sentence = explode("&", $this->awards[0]);
+					preg_match_all('/([\d]+) win/',$sentence[0],$matches);
+					$mawards['Wins'] = $matches[1][0];
+					
+				    preg_match_all('/([\d]+) nomination/',$sentence[1],$matches);
+				    $mawards['Another'] = $matches[1][0];
+			}
+		}
+		$this->awards = $mawards;
+
+
 		$this->actors = explode(', ', $movie['Actors']);
 		$this->plot = $movie['Plot'];
 		$this->languages = explode(', ', $movie['Language']);

@@ -1,4 +1,4 @@
-<?php require('templates/header.php'); require('core/init.php');?>
+<?php require('templates/header.php'); require('core/init.php'); load();?>
 
     <div class="jumbotron">
       <div class="container">

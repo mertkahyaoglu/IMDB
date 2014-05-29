@@ -1,4 +1,19 @@
 <?php
+$path = dirname(__FILE__);
+
+function load() {
+	global $path;
+	if(!exists("tt1375666")) {
+		$p = new Parser();
+		$file = file_get_contents("{$path}/../Parser/data.json");  
+		$json = json_decode($file, true);
+		$movies = $json['movies'];
+
+		foreach ($movies as $movie) {
+			addToDb($movie); //parse and insert
+		}
+	}
+}
 
 //return json file which is collected from omdbapi.com by id
 function getJSON($imdbID) {
@@ -101,7 +116,6 @@ function exists($imdbID){
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
 	$stmt->execute(array(':id' => $imdbID));
 	return ($stmt->rowCount() > 0) ? true: false;
-
 }
 
 function getID($table, $field, $by) {
@@ -198,6 +212,15 @@ function addToDb($movie) {
 	$stmt->bindParam(4, $p->vote);
 	$stmt->execute();
 
+	//Add awards
+	$sql = "call insertAwards(?, ?, ?, ?)";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql);
+	$stmt->bindParam(1, $movieid);
+	$stmt->bindParam(2, $p->awards['Oscar']);
+	$stmt->bindParam(3, $p->awards['Wins']);
+	$stmt->bindParam(4, $p->awards['Another']);
+	$stmt->execute();
+
 	//Add movie_genre
 	foreach ($p->genres as $genre) {
 		$gid = getID("genres", "genre", "$genre");
@@ -264,7 +287,7 @@ function addToDb($movie) {
 		$stmt->bindParam(2, $wid);
 		$stmt->execute();
 	}
-
+	
 }
 
 ?>
