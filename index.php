@@ -1,4 +1,6 @@
-<?php require('templates/header.php'); require('core/init.php'); load();?>
+<?php require('templates/header.php'); require('core/init.php');
+if(getNumOfMovies() < 1) load();
+?>
 
     <div class="jumbotron">
       <div class="container">
@@ -61,7 +63,10 @@
             
         </form>
         
-      </div>
+      </div>   
     </div>
-    
+    <div class="container">
+
+    </div>
+
 <?php require('templates/footer.php');?>

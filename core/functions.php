@@ -2,16 +2,14 @@
 $path = dirname(__FILE__);
 
 function load() {
-	global $path;
-	if(!exists("tt1375666")) {
-		$p = new Parser();
-		$file = file_get_contents("{$path}/../Parser/data.json");  
-		$json = json_decode($file, true);
-		$movies = $json['movies'];
+	global $path;	
+	$p = new Parser();
+	$file = file_get_contents("{$path}/../Parser/data.json");  
+	$json = json_decode($file, true);
+	$movies = $json['movies'];
 
-		foreach ($movies as $movie) {
-			addToDb($movie); //parse and insert
-		}
+	foreach ($movies as $movie) {
+		addToDb($movie); //parse and insert
 	}
 }
 
@@ -118,6 +116,14 @@ function exists($imdbID){
 	return ($stmt->rowCount() > 0) ? true: false;
 }
 
+function getNumOfMovies() {
+	$sql = "select count(*) as total from movies";
+	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+	$stmt->execute();
+	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $row['total'];
+}
+
 function getID($table, $field, $by) {
 	$sql = "select id from ".$table." where ".$field." = :by";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
@@ -126,168 +132,94 @@ function getID($table, $field, $by) {
 	return $row['id'];
 }
 
+function insert($spname, $fields = array()) {
+	for ($i=0; $i < count($fields) ; $i++) { 
+		$qmarks[] = "?"; 
+	}
+	$qmarks = implode(", ", $qmarks);
+	$sql = "call ".$spname."(".$qmarks.")";
+
+	$stmt = DB::getInstance()->getPDO()->prepare($sql);
+
+	for ($i=0; $i < count($fields) ; $i++) { 
+		if(is_numeric($fields[$i])) {
+			$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_INT);
+		}else{
+			$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_STR);
+		}
+	}
+	$stmt->execute();
+}
+
 function addToDb($movie) {
 	$p = new Parser();
 	$p->parse($movie);
 
-	$sql = "call insertMovie(?, ?, ?, ?, ?)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
-	$stmt->bindParam(1, $p->title, PDO::PARAM_STR);
-	$stmt->bindParam(2, $p->year, PDO::PARAM_INT);
-	$stmt->bindParam(3, $p->released, PDO::PARAM_STR);
-	$stmt->bindParam(4, $p->runtime, PDO::PARAM_INT);
-	$stmt->bindParam(5, $p->id, PDO::PARAM_STR);
-	$stmt->execute();
-
+	insert("insertMovie", array($p->title, $p->year, $p->released, $p->runtime, $p->id));
 	$movieid = getID("movies", "imdbID", $p->id);
 
 	//Add genres
 	foreach ($p->genres as $genre) {
-		$sql = "call insertGenre(?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $genre);
-		$stmt->execute();
+		insert("insertGenre", array($genre));
 	}
-
 	//Add director
 	foreach ($p->directors as $director) {
-		$sql = "call insertDirector(?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $director);
-		$stmt->execute();
+		insert("insertDirector", array($director));
 	}
-
 	//Add writers
 	foreach ($p->writers as $writer) {
-		$sql = "call insertWriter(?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $writer);
-		$stmt->execute();
+		insert("insertWriter", array($writer));
 	}
-
 	//Add actors
-	foreach ($p->actors as $actor) {
-		$sql = "call insertActor(?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $actor);
-		$stmt->execute();
+	foreach ($p->actors as $actor) {	
+		insert("insertActor", array($actor));
 	}
-
 	//Add languages
 	foreach ($p->languages as $lan) {
-		$sql = "call insertLanguage(?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $lan);
-		$stmt->execute();
+		insert("insertLanguage", array($lan));
 	}
-
 	//Add countries
 	foreach ($p->countries as $coun) {
-		$sql = "call insertCountry(?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $coun);
-		$stmt->execute();
+		insert("insertCountry", array($coun));
 	}
-
 	//Add plot
-	$sql = "call insertPlot(?, ?)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
-	$stmt->bindParam(1, $movieid);
-	$stmt->bindParam(2, $p->plot);
-	$stmt->execute();
-	
+	insert("insertPlot", array($movieid, $p->plot));
 	//Add poster
-	$sql = "call insertPoster(?, ?)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
-	$stmt->bindParam(1, $movieid);
-	$stmt->bindParam(2, $p->poster);
-	$stmt->execute();
-
+	insert("insertPoster", array($movieid, $p->poster));
 	//Add stats
-	$sql = "call insertStat(?, ?, ?, ?)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
-	$stmt->bindParam(1, $movieid);
-	$stmt->bindParam(2, $p->rating);
-	$stmt->bindParam(3, $p->metascore);
-	$stmt->bindParam(4, $p->vote);
-	$stmt->execute();
-
+	insert("insertStat", array($movieid, $p->rating, $p->metascore, $p->vote));
 	//Add awards
-	$sql = "call insertAwards(?, ?, ?, ?)";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
-	$stmt->bindParam(1, $movieid);
-	$stmt->bindParam(2, $p->awards['Oscar']);
-	$stmt->bindParam(3, $p->awards['Wins']);
-	$stmt->bindParam(4, $p->awards['Another']);
-	$stmt->execute();
-
+	insert("insertAwards", array($movieid, $p->awards['Oscar'], $p->awards['Win'], $p->awards['Another']));
 	//Add movie_genre
 	foreach ($p->genres as $genre) {
 		$gid = getID("genres", "genre", "$genre");
-
-		$sql = "call insertMovieGenre(?, ?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $movieid);
-		$stmt->bindParam(2, $gid);
-		$stmt->execute();
+		insert("insertMovieGenre", array($movieid, $gid));
 	}
-
 	//Add movie_cast
 	foreach ($p->actors as $actor) {
 		$aid = getID("actors", "name", $actor);
-
-		$sql = "call insertMovieCast(?, ?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $movieid);
-		$stmt->bindParam(2, $aid);
-		$stmt->execute();
+		insert("insertMovieCast", array($movieid, $aid));
 	}
-
 	//Add movie_director
-	//get director id
 	foreach ($p->directors as $director) {
 		$did = getID("directors", "name", $director);
-
-		$sql = "call insertMovieDirector(?, ?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $movieid);
-		$stmt->bindParam(2, $did);
-		$stmt->execute();
+		insert("insertMovieDirector", array($movieid, $did));
 	}
-
 	//Add movie_country
 	foreach ($p->countries as $country) {
 		$cid = getID("countries", "country", $country);
-
-		$sql = "call insertMovieCountry(?, ?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $movieid);
-		$stmt->bindParam(2, $cid);
-		$stmt->execute();
+		insert("insertMovieCountry", array($movieid, $cid));
 	}
-
 	//Add movie_langugae
 	foreach ($p->languages as $lan) {
 		$lid = getID("languages", "language", $lan);
-
-		$sql = "call insertMovieLanguage(?, ?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $movieid);
-		$stmt->bindParam(2, $lid);
-		$stmt->execute();
+		insert("insertMovieLanguage", array($movieid, $lid));
 	}
-
 	//Add movie_writer
 	foreach ($p->writers as $writer) {
 		$wid = getID("writers", "name", $writer);
-
-		$sql = "call insertMovieWriter(?, ?)";
-		$stmt = DB::getInstance()->getPDO()->prepare($sql);
-		$stmt->bindParam(1, $movieid);
-		$stmt->bindParam(2, $wid);
-		$stmt->execute();
+		insert("insertMovieWriter", array($movieid, $wid));
 	}
-	
 }
 
 ?>

@@ -5,29 +5,9 @@ class Parser {
 	private $json,
 			$movies;
 
-	public  $id,
-			$title,
-			$year,
-			$released,
-			$runtime,
-
-			$genres,
-			$directors,
-			$writers,
-			$actors,
-			$languages,
-			$countries,
-
-			$plot,
-			$awards,
-			$poster,
-			$metascore,
-			$rating,
-			$vote;
-
-	public function __construct(){
-		
-    }
+	public  $id, $title, $year, $released, $runtime,
+			$genres, $directors, $writers, $actors, $languages, $countries,
+			$plot, $awards, $poster, $metascore, $rating, $vote;
 
     public function parse($movie) {
     	$this->id = $movie['imdbID'];
@@ -47,10 +27,10 @@ class Parser {
 			$i++;
 		}
 
-		$this->awards = $movie['Awards'];
+		$this->awards = substr($movie['Awards'], 0, -1);
 		$mawards = [];
 		$this->awards = explode(".", $this->awards);
-		if(count($this->awards) > 2) {
+		if(count($this->awards) > 1) {
 			foreach ($this->awards as $sentence) {
 				if (preg_match('/Won/',$sentence)) {
 					 preg_match_all('/Won ([\d]+)/',$sentence,$matches);
@@ -68,14 +48,15 @@ class Parser {
 			if (preg_match('/&/',$this->awards[0])) {
 					$sentence = explode("&", $this->awards[0]);
 					preg_match_all('/([\d]+) win/',$sentence[0],$matches);
-					$mawards['Wins'] = $matches[1][0];
-					
+					$mawards['Win'] = $matches[1][0];
 				    preg_match_all('/([\d]+) nomination/',$sentence[1],$matches);
 				    $mawards['Another'] = $matches[1][0];
 			}
 		}
-		$this->awards = $mawards;
 
+		$this->awards['Oscar'] = isset($mawards['Oscar']) ? $mawards['Oscar'] : 0;
+		$this->awards['Win'] = isset($mawards['Win']) ? $mawards['Win'] : 0;
+		$this->awards['Another'] = isset($mawards['Another']) ? $mawards['Another'] : 0;
 
 		$this->actors = explode(', ', $movie['Actors']);
 		$this->plot = $movie['Plot'];
