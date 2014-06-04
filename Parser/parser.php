@@ -15,24 +15,24 @@ class Parser {
     	$this->year = substr(filter_var($movie['Year'], FILTER_SANITIZE_NUMBER_INT), 0, 4); // take first 4 numeric
     	$this->released = $movie['Released'];
     	$this->runtime = filter_var($movie['Runtime'], FILTER_SANITIZE_NUMBER_INT); // remove 'min'
-		$this->genres = explode(', ', $movie['Genre']); 
-		$this->directors = explode(", ", $movie['Director']);
-		$this->writers = explode(', ', $movie['Writer']);
+		$this->genres = explode(', ', $movie['Genre']); // split by comma and make it array
+		$this->directors = explode(", ", $movie['Director']); //split by comma and make it array
+		$this->writers = explode(', ', $movie['Writer']); //split by comma and make it array
 
 		$i = 0;
 		foreach ($this->writers as $writer) {	
-			$writer = preg_replace('/\(.*\)/', '', $writer);
+			$writer = preg_replace('/\(.*\)/', '', $writer); //some writers have explanation like (screenplay, etc.) remove them
 			$this->writers[$i] = $writer;
 			$i++;
 		}
 
-		$this->awards = substr($movie['Awards'], 0, -1);
+		$this->awards = substr($movie['Awards'], 0, -1); //remove dot at the end
 		$mawards = [];
-		$this->awards = explode(".", $this->awards);
+		$this->awards = explode(".", $this->awards); //split by dot
 		if(count($this->awards) > 1) {
 			foreach ($this->awards as $sentence) {
 				if (preg_match('/Won/',$sentence)) {
-					 preg_match_all('/Won ([\d]+)/',$sentence,$matches);
+					 preg_match_all('/Won ([\d]+)/',$sentence,$matches); //if sentence has Won,it means has Oscar, take numeric value
 					 $mawards['Oscar'] = $matches[1][0];
 				}
 				if (preg_match('/&/',$sentence)) {

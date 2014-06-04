@@ -1,4 +1,6 @@
 <?php
+//get all movies which their ids on id.txt from omdbapi.com and writes them into data.json
+//already written dont use again otherwise data.json will be ruined.
 $idfile = fopen("id.txt", "r");
 
 while(!feof($idfile)){ 
