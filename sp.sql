@@ -1,3 +1,8 @@
+-- -----------------------------------------------------
+-- procedure insertMovie
+-- -----------------------------------------------------
+
+
 DELIMITER $$
 USE `imdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertMovie`(IN movie_title VARCHAR(100),
