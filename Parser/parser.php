@@ -22,7 +22,6 @@ class Parser {
 		$i = 0;
 		foreach ($this->writers as $writer) {	
 			$writer = preg_replace('/\(.*\)/', '', $writer);
-			
 			$this->writers[$i] = $writer;
 			$i++;
 		}

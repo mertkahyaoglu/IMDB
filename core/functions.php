@@ -1,6 +1,7 @@
 <?php
 $path = dirname(__FILE__);
 
+//loads data.json into the db
 function load() {
 	global $path;	
 	$p = new Parser();
@@ -13,7 +14,7 @@ function load() {
 	}
 }
 
-//return json file which is collected from omdbapi.com by id
+//returns a movie json data which is collected from omdbapi.com
 function getJSON($imdbID) {
 	$url = "http://www.omdbapi.com/?i={$imdbID}";
 	$json = file_get_contents($url);
@@ -22,6 +23,7 @@ function getJSON($imdbID) {
 	else return "";
 }
 
+//advanced search for home page
 function advancedSearch($year, $genre, $con, $lan) {
 	$count = [];
 	$results = [];
@@ -53,6 +55,7 @@ function advancedSearch($year, $genre, $con, $lan) {
 	return $results;
 }
 
+//search a movie according to movie title
 function searchByTitle($movie) {
 	$results = [];
 	try{	
@@ -68,6 +71,9 @@ function searchByTitle($movie) {
 	return $results;	
 }
 
+/*returns multiple data for a movie(e.g movie genres) according to any field (e.g by imdbID)
+  using stored procedure name
+*/
 function getFields($sp, $by) {
 	if($by === "") {
 		$sql = "call ".$sp."()";
@@ -84,6 +90,9 @@ function getFields($sp, $by) {
 	return $results;
 }
 
+/*returns single data for a movie(e.g movie poster) according to any field (e.g by imdbID)
+  using stored procedure name
+*/
 function getField($sp, $by) {
 	if($by === ""){
 		$sql = "call ".$sp."()";
@@ -97,6 +106,7 @@ function getField($sp, $by) {
 	return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+//splits data for given values. used in details page to output (Crime | Drama | Action) like results
 function implodeFields($values, $key, $with) {
 	$result = "";
 	$i = 0;
@@ -116,6 +126,7 @@ function exists($imdbID){
 	return ($stmt->rowCount() > 0) ? true: false;
 }
 
+//returns total number of movies
 function getNumOfMovies() {
 	$sql = "select count(*) as total from movies";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
@@ -124,6 +135,7 @@ function getNumOfMovies() {
 	return $row['total'];
 }
 
+//returns id of a table given an attribute
 function getID($table, $field, $by) {
 	$sql = "select id from ".$table." where ".$field." = :by";
 	$stmt = DB::getInstance()->getPDO()->prepare($sql); 
@@ -132,29 +144,29 @@ function getID($table, $field, $by) {
 	return $row['id'];
 }
 
+//insert fields using stored procedure
 function insert($spname, $fields = array()) {
-	for ($i=0; $i < count($fields) ; $i++) { 
+	for ($i=0; $i < count($fields) ; $i++)
 		$qmarks[] = "?"; 
-	}
 	$qmarks = implode(", ", $qmarks);
 	$sql = "call ".$spname."(".$qmarks.")";
-
 	$stmt = DB::getInstance()->getPDO()->prepare($sql);
 
 	for ($i=0; $i < count($fields) ; $i++) { 
-		if(is_numeric($fields[$i])) {
+		if(is_numeric($fields[$i]))
 			$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_INT);
-		}else{
+		else
 			$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_STR);
-		}
 	}
 	$stmt->execute();
 }
 
+//parses a row of data coming from data.json and inserts into db using insert stored procedures
 function addToDb($movie) {
 	$p = new Parser();
 	$p->parse($movie);
 
+	//Add movie
 	insert("insertMovie", array($p->title, $p->year, $p->released, $p->runtime, $p->id));
 	$movieid = getID("movies", "imdbID", $p->id);
 
