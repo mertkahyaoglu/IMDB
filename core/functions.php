@@ -161,6 +161,7 @@ function getID($table, $field, $by) {
 
 //insert fields using stored procedure
 function insert($spname, $fields = array()) {
+	$qmarks = [];
 	for ($i=0; $i < count($fields) ; $i++)
 		$qmarks[] = "?"; 
 	$qmarks = implode(", ", $qmarks);
