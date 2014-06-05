@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `imdb`.`movies` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
   `year` SMALLINT(4) UNSIGNED NULL,
-  `released` CHAR(11) NULL,
+  `released` DATE NULL,
   `runtime` SMALLINT(3) UNSIGNED NULL,
   `imdbID` CHAR(9) NOT NULL,
   PRIMARY KEY (`id`),

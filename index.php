@@ -1,6 +1,14 @@
 <?php require('templates/header.php'); require('core/init.php');
 if(getNumOfMovies() < 1) load();
+$recents = getRecent(20);
 ?>
+    <div class="slider">
+      <?php
+        foreach ($recents as $movie) {
+            ?><div class="slide"><a href="details.php?imdbID=<?= $movie['imdbID'] ?>"><img src="<?= $movie['url'] ?>"></a></div><?php
+        }
+      ?>
+    </div>
 
     <div class="jumbotron">
       <div class="container">

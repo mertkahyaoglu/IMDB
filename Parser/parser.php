@@ -13,7 +13,10 @@ class Parser {
     	$this->id = $movie['imdbID'];
     	$this->title = $movie['Title'];
     	$this->year = substr(filter_var($movie['Year'], FILTER_SANITIZE_NUMBER_INT), 0, 4); // take first 4 numeric
-    	$this->released = $movie['Released'];
+    	$this->released[] = date_parse($movie['Released'])['year'];
+    	$this->released[] = date_parse($movie['Released'])['month'];
+    	$this->released[] = date_parse($movie['Released'])['day'];
+    	$this->released = implode("-", $this->released);
     	$this->runtime = filter_var($movie['Runtime'], FILTER_SANITIZE_NUMBER_INT); // remove 'min'
 		$this->genres = explode(', ', $movie['Genre']); // split by comma and make it array
 		$this->directors = explode(", ", $movie['Director']); //split by comma and make it array

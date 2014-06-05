@@ -1,8 +1,12 @@
+-- -----------------------------------------------------
+-- procedure insertMovie
+-- -----------------------------------------------------
+
 DELIMITER $$
 USE `imdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertMovie`(IN movie_title VARCHAR(100),
 							  IN movie_year smallint(4),
-							  IN movie_released CHAR(11),
+							  IN movie_released DATE,
 							  IN movie_runtime SMALLINT(3),
 							  IN movie_imdbID CHAR(9))
 BEGIN
@@ -242,7 +246,7 @@ DELIMITER $$
 USE `imdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMovie`(IN iid CHAR(9))
 BEGIN
-	SELECT * FROM movies WHERE imdbID = iid;
+	SELECT title, year, DATE_FORMAT(released, '%d %b %Y') as released, runtime, imdbID FROM movies WHERE imdbID = iid;
 END$$
 
 DELIMITER ;

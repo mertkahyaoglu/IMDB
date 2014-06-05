@@ -55,6 +55,20 @@ function advancedSearch($year, $genre, $con, $lan) {
 	return $results;
 }
 
+//returns $amount of recent movies according to their date
+function getRecent($amount) {
+	$results = [];
+	try{	
+		$sql = "select title, url, imdbID from movies m, posters p where m.id = p.movie_id order by m.released DESC LIMIT 0, ".$amount;
+		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
+		$stmt->execute();
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	    	$results[] = $row;
+		}
+	}catch(PDOException $e) {}
+	return $results;	
+}
+
 //search a movie according to movie title
 function searchByTitle($movie) {
 	$results = [];
