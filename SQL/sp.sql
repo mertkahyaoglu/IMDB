@@ -1,7 +1,14 @@
 -- -----------------------------------------------------
+<<<<<<< HEAD
 -- procedure insertMovie
 -- -----------------------------------------------------
 
+=======
+-- procedure insertMovie : inserts into movie table 
+-- -----------------------------------------------------
+
+
+>>>>>>> c7a619fb50d872f61830a5b43ac80f717878a23e
 DELIMITER $$
 USE `imdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertMovie`(IN movie_title VARCHAR(100),
@@ -18,7 +25,7 @@ $$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertGenre
+-- procedure insertGenre : inserts into genres table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -32,7 +39,7 @@ BEGIN
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertLanguage
+-- procedure insertLanguage : inserts into languages table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -46,7 +53,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertCountry
+-- procedure insertCountry : inserts into countries table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -60,7 +67,7 @@ BEGIN
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertDirector
+-- procedure insertDirector : inserts into directors table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -74,7 +81,7 @@ BEGIN
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertWriter
+-- procedure insertWriter : inserts into writers table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -88,7 +95,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertActor
+-- procedure insertActor : inserts into actors table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -102,7 +109,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertPoster
+-- procedure insertPoster : inserts into posters table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -116,7 +123,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertPlot
+-- procedure insertPlot : inserts into plots table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -130,7 +137,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertStat
+-- procedure insertStat : inserts into stats table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -147,7 +154,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertMovieGenre
+-- procedure insertMovieGenre : inserts ids of genres of the movie into movie_genre table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -160,7 +167,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertMovieCountry
+-- procedure insertMovieCountry : inserts ids of countries of the movie into movie_country table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -173,7 +180,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertMovieDirector
+-- procedure insertMovieDirector : inserts ids of directors of the movie into movie_director table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -186,7 +193,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertMovieLanguage
+-- procedure insertMovieLanguage : inserts ids of languages of the movie into movie_language table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -199,7 +206,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertMovieWriter
+-- procedure insertMovieWriter : inserts ids of writers of the movie into movie_writer table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -212,7 +219,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertAwards
+-- procedure insertAwards : inserts into awards table
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -226,7 +233,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure insertMovieCast
+-- procedure insertMovieCast : inserts ids of actors of the movie into movie_cast table 
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -239,7 +246,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMovie
+-- procedure getMovie : returns movie table data according to imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -252,7 +259,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMovieActors
+-- procedure getMovieActors : returns the name of the actors of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -265,7 +272,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMovieCountries
+-- procedure getMovieCountries : returns the countries of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -278,7 +285,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMovieDirectors
+-- procedure getMovieDirectors : returns the name of the directors of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -291,7 +298,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMovieGenres
+-- procedure getMovieGenres : returns the gresen of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -304,7 +311,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMoviePlot
+-- procedure getMoviePlot : returns the plot of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -318,7 +325,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMoviePoster
+-- procedure getMoviePoster : returns the poster url of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -331,7 +338,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMovieWriters
+-- procedure getMovieWriters : returns the name of the writers of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -344,7 +351,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getMovieStats
+-- procedure getMovieStats : returns rating, votes and metascore of a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -358,7 +365,7 @@ $$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getYears
+-- procedure getYears : returns all years in descending order
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -371,7 +378,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getGenres
+-- procedure getGenres : returns all genres in ascending order
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -384,7 +391,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getLanguages
+-- procedure getLanguages : returns all languages in ascending order
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -397,7 +404,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure getCountries
+-- procedure getCountries : returns all countries in ascending order
 -- -----------------------------------------------------
 
 DELIMITER $$
@@ -410,7 +417,7 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure deleteMovie
+-- procedure deleteMovie : deletes a movie with given imdbID
 -- -----------------------------------------------------
 
 DELIMITER $$
