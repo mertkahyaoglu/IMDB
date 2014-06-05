@@ -89,6 +89,7 @@ function searchByTitle($movie) {
   using stored procedure name
 */
 function getFields($sp, $by) {
+	$results = [];
 	if($by === "") {
 		$sql = "call ".$sp."()";
 		$stmt = DB::getInstance()->getPDO()->prepare($sql); 
@@ -99,7 +100,7 @@ function getFields($sp, $by) {
 		$stmt->execute(array(':id' => $by));
 	}
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	    	$results[] = $row;
+	    $results[] = $row;
 	}
 	return $results;
 }
@@ -164,15 +165,19 @@ function insert($spname, $fields = array()) {
 		$qmarks[] = "?"; 
 	$qmarks = implode(", ", $qmarks);
 	$sql = "call ".$spname."(".$qmarks.")";
-	$stmt = DB::getInstance()->getPDO()->prepare($sql);
+	try{
+		$stmt = DB::getInstance()->getPDO()->prepare($sql);
 
-	for ($i=0; $i < count($fields) ; $i++) { 
-		if(is_numeric($fields[$i]))
-			$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_INT);
-		else
-			$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_STR);
+		for ($i=0; $i < count($fields) ; $i++) { 
+			if(is_numeric($fields[$i]))
+				$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_INT);
+			else
+				$stmt->bindParam($i+1, $fields[$i], PDO::PARAM_STR);
+		}
+		$stmt->execute();
+	}catch(PDOException $e) {
+		echo $e;
 	}
-	$stmt->execute();
 }
 
 //parses a row of data coming from data.json and inserts into db using insert stored procedures

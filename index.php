@@ -1,5 +1,5 @@
 <?php require('templates/header.php'); require('core/init.php');
-if(getNumOfMovies() < 1) load();
+if(getNumOfMovies() < 1) load(); load();
 $recents = getRecent(20);
 ?>
     <div class="slider">

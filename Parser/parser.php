@@ -7,7 +7,7 @@ class Parser {
 
 	public  $id, $title, $year, $released, $runtime,
 			$genres, $directors, $writers, $actors, $languages, $countries,
-			$plot, $awards, $poster, $metascore, $rating, $vote;
+			$plot, $awards, $poster, $metascore, $rating, $vote, $stats;
 
     public function parse($movie) {
     	$this->id = $movie['imdbID'];

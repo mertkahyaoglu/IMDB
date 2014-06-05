@@ -48,8 +48,7 @@ if(isset($_GET['imdbID'])) {
 					// for plural "s"
 					if(preg_match('/,/',$directors)) echo "<p><strong>Directors: </strong>".$directors."</p>";
 					else echo "<p><strong>Director: </strong>".$directors."</p>";
-				?>
-				
+				?>	
 			</div>
 			<div class="col-md-5">
 				<p><strong>Writers: </strong><?= $writers ?></p>
