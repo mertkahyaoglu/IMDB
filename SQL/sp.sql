@@ -422,3 +422,11 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- procedure getSamePerAsDirWri : finds all movies whose director and writer is the same person
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSamePerAsDirWri`()
+BEGIN
+	SELECT title, directors.name, writers.name FROM movies, movie_director, directors,movie_writer, writers WHERE movies.id = movie_writer.movie_id and writer_id=writers.id and movies.id = movie_director.movie_id and director_id = directors.id and directors.name = writers.name;
+END
