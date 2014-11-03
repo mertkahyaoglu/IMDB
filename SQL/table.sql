@@ -1,7 +1,7 @@
 -- -----------------------------------------------------
 -- Table `imdb`.`movies`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`movies` (
+CREATE TABLE IF NOT EXISTS `movies` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
   `year` SMALLINT(4) UNSIGNED NULL,
@@ -16,7 +16,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`actors`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`actors` (
+CREATE TABLE IF NOT EXISTS `actors` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -27,7 +27,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`directors`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`directors` (
+CREATE TABLE IF NOT EXISTS `directors` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -38,7 +38,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`awards`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`awards` (
+CREATE TABLE IF NOT EXISTS `awards` (
   `movie_id` INT NOT NULL,
   `oscars` TINYINT(3) UNSIGNED NULL,
   `wins` SMALLINT(4) UNSIGNED NULL,
@@ -55,7 +55,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`languages`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`languages` (
+CREATE TABLE IF NOT EXISTS `languages` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `language` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -66,7 +66,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`writers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`writers` (
+CREATE TABLE IF NOT EXISTS `writers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -77,7 +77,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`countries`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`countries` (
+CREATE TABLE IF NOT EXISTS `countries` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `country` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
@@ -88,7 +88,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`stats`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`stats` (
+CREATE TABLE IF NOT EXISTS `stats` (
   `movie_id` INT NOT NULL,
   `imdb_rating` FLOAT(2,1) UNSIGNED NULL,
   `imdb_metascore` TINYINT UNSIGNED NULL,
@@ -105,7 +105,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`movie_cast`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`movie_cast` (
+CREATE TABLE IF NOT EXISTS `movie_cast` (
   `movie_id` INT NOT NULL,
   `actor_id` INT NOT NULL,
   PRIMARY KEY (`movie_id`, `actor_id`),
@@ -126,7 +126,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`genres`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`genres` (
+CREATE TABLE IF NOT EXISTS `genres` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `genre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -137,7 +137,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`movie_genre`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`movie_genre` (
+CREATE TABLE IF NOT EXISTS `movie_genre` (
   `movie_id` INT NOT NULL,
   `genre_id` INT NOT NULL,
   PRIMARY KEY (`movie_id`, `genre_id`),
@@ -158,7 +158,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`movie_language`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`movie_language` (
+CREATE TABLE IF NOT EXISTS `movie_language` (
   `movie_id` INT NOT NULL,
   `language_id` INT NOT NULL,
   PRIMARY KEY (`movie_id`, `language_id`),
@@ -179,7 +179,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`movie_country`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`movie_country` (
+CREATE TABLE IF NOT EXISTS `movie_country` (
   `movie_id` INT NOT NULL,
   `country_id` INT NOT NULL,
   PRIMARY KEY (`movie_id`, `country_id`),
@@ -200,7 +200,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`movie_writer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`movie_writer` (
+CREATE TABLE IF NOT EXISTS `movie_writer` (
   `movie_id` INT NOT NULL,
   `writer_id` INT NOT NULL,
   PRIMARY KEY (`movie_id`, `writer_id`),
@@ -221,7 +221,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`movie_director`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`movie_director` (
+CREATE TABLE IF NOT EXISTS `movie_director` (
   `movie_id` INT NOT NULL,
   `director_id` INT NOT NULL,
   PRIMARY KEY (`movie_id`, `director_id`),
@@ -242,7 +242,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`posters`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`posters` (
+CREATE TABLE IF NOT EXISTS `posters` (
   `movie_id` INT NOT NULL,
   `url` VARCHAR(128) NULL,
   PRIMARY KEY (`movie_id`),
@@ -257,7 +257,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `imdb`.`plots`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imdb`.`plots` (
+CREATE TABLE IF NOT EXISTS `plots` (
   `movie_id` INT NOT NULL,
   `plot` VARCHAR(400) NULL,
   PRIMARY KEY (`movie_id`),
