@@ -1,14 +1,7 @@
 -- -----------------------------------------------------
-<<<<<<< HEAD
--- procedure insertMovie
--- -----------------------------------------------------
-
-=======
 -- procedure insertMovie : inserts into movie table 
 -- -----------------------------------------------------
 
-
->>>>>>> c7a619fb50d872f61830a5b43ac80f717878a23e
 DELIMITER $$
 USE `imdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertMovie`(IN movie_title VARCHAR(100),
