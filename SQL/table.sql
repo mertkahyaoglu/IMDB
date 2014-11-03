@@ -1,5 +1,5 @@
 -- -----------------------------------------------------
--- Table `imdb`.`movies`
+-- Table `movies`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `movies` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -14,7 +14,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`actors`
+-- Table `actors`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `actors` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -25,18 +25,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`directors`
+-- Table `directors`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `directors` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB;i
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`awards`
+-- Table `awards`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `awards` (
   `movie_id` INT NOT NULL,
@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `awards` (
   PRIMARY KEY (`movie_id`),
   CONSTRAINT `awards_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`languages`
+-- Table `languages`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `languages` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -64,7 +64,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`writers`
+-- Table `writers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `writers` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -75,7 +75,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`countries`
+-- Table `countries`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `countries` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -86,7 +86,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`stats`
+-- Table `stats`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `stats` (
   `movie_id` INT NOT NULL,
@@ -96,14 +96,14 @@ CREATE TABLE IF NOT EXISTS `stats` (
   PRIMARY KEY (`movie_id`),
   CONSTRAINT `stats_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`movie_cast`
+-- Table `movie_cast`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `movie_cast` (
   `movie_id` INT NOT NULL,
@@ -112,19 +112,19 @@ CREATE TABLE IF NOT EXISTS `movie_cast` (
   INDEX `actor_id_idx` (`actor_id` ASC),
   CONSTRAINT `cast_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `cast_actor_id`
     FOREIGN KEY (`actor_id`)
-    REFERENCES `imdb`.`actors` (`id`)
+    REFERENCES `actors` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`genres`
+-- Table `genres`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `genres` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -135,7 +135,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`movie_genre`
+-- Table `movie_genre`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `movie_genre` (
   `movie_id` INT NOT NULL,
@@ -144,19 +144,19 @@ CREATE TABLE IF NOT EXISTS `movie_genre` (
   INDEX `fk_genre_id_idx` (`genre_id` ASC),
   CONSTRAINT `genre_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `genre_id`
     FOREIGN KEY (`genre_id`)
-    REFERENCES `imdb`.`genres` (`id`)
+    REFERENCES `genres` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`movie_language`
+-- Table `movie_language`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `movie_language` (
   `movie_id` INT NOT NULL,
@@ -165,19 +165,19 @@ CREATE TABLE IF NOT EXISTS `movie_language` (
   INDEX `fk_language_id_idx` (`language_id` ASC),
   CONSTRAINT `lan_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `lan_language_id`
     FOREIGN KEY (`language_id`)
-    REFERENCES `imdb`.`languages` (`id`)
+    REFERENCES `languages` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`movie_country`
+-- Table `movie_country`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `movie_country` (
   `movie_id` INT NOT NULL,
@@ -186,19 +186,19 @@ CREATE TABLE IF NOT EXISTS `movie_country` (
   INDEX `fk_country_id_idx` (`country_id` ASC),
   CONSTRAINT `con_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `con_country_id`
     FOREIGN KEY (`country_id`)
-    REFERENCES `imdb`.`countries` (`id`)
+    REFERENCES `countries` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`movie_writer`
+-- Table `movie_writer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `movie_writer` (
   `movie_id` INT NOT NULL,
@@ -207,19 +207,19 @@ CREATE TABLE IF NOT EXISTS `movie_writer` (
   INDEX `fk_writer_id_idx` (`writer_id` ASC),
   CONSTRAINT `wrt_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `wrt_writer_id`
     FOREIGN KEY (`writer_id`)
-    REFERENCES `imdb`.`writers` (`id`)
+    REFERENCES `writers` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`movie_director`
+-- Table `movie_director`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `movie_director` (
   `movie_id` INT NOT NULL,
@@ -228,19 +228,19 @@ CREATE TABLE IF NOT EXISTS `movie_director` (
   INDEX `fk_director_id_idx` (`director_id` ASC),
   CONSTRAINT `dir_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `dir_director_id`
     FOREIGN KEY (`director_id`)
-    REFERENCES `imdb`.`directors` (`id`)
+    REFERENCES `directors` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`posters`
+-- Table `posters`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `posters` (
   `movie_id` INT NOT NULL,
@@ -248,14 +248,14 @@ CREATE TABLE IF NOT EXISTS `posters` (
   PRIMARY KEY (`movie_id`),
   CONSTRAINT `poster_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `imdb`.`plots`
+-- Table `plots`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `plots` (
   `movie_id` INT NOT NULL,
@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `plots` (
   PRIMARY KEY (`movie_id`),
   CONSTRAINT `plot_movie_id`
     FOREIGN KEY (`movie_id`)
-    REFERENCES `imdb`.`movies` (`id`)
+    REFERENCES `movies` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
